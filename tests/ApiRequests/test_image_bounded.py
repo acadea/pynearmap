@@ -6,7 +6,7 @@ sys.path.append(os.getenv("PATH_ROOT"))
 import pytest
 from PIL import Image
 from io import BytesIO
-from Src.Image.Bounded import Bounded
+from Pynearmap.Image.Bounded import Bounded
 
 @pytest.fixture
 def image_bounded_instance():

@@ -1,10 +1,13 @@
-from Src.BaseRequest import BaseRequest
+from Pynearmap.BaseRequest import BaseRequest
 
-class Polygon(BaseRequest):
-    base_uri = "coverage/v2/poly/"
+class TileCoordinate(BaseRequest):
+
+    base_uri = "coverage/v2/coord/"
 
     def set_params(self,
-                   polygon: list,
+                   z: int,
+                   x: int,
+                   y: int,
                    since: str = None,
                    until: str = None,
                    limit: int = None,
@@ -13,27 +16,12 @@ class Polygon(BaseRequest):
                    sort: str = None
                    ):
         """
-        This API retrieves coverage (surveys) for a given polygon.
+        This API retrieves coverage (surveys) for a given tile (x/y/z) coordinate, using the Google Maps Tile Coordinates.
+        https://developers.google.com/maps/documentation/javascript/coordinates
         Args:
-            polygon (list):
-                The polygon for which the surveys are retrieved. The polygon is depicted by a set of
-                LONG,LAT points, where the first and the last points must be the same.
-
-                For example:
-
-                138.59707796614592,-34.91729448760797
-
-                138.61703360121672,-34.91729448760797
-
-                138.61703360121672,-34.927709974005474
-
-                138.59707796614592,-34.927709974005474
-
-                138.59707796614592,-34.91729448760797
-                Notes-
-                    The API returns all surveys partially intersecting the requested polygon.
-                    The LONG comes before the LAT
-
+            z: The zoom level. The highest resolution is typically 21. Uses the Google Maps Tile Coordinates.
+            x: The X tile coordinate for which the surveys are retrieved (column). Uses the Google Maps Tile Coordinates.
+            y: The Y tile coordinate for which the surveys are retrieved (row). Uses the Uses the Google Maps Tile Coordinates.
             since (str):
                 The first day from which to retrieve the surveys (inclusive).
 
@@ -84,19 +72,22 @@ class Polygon(BaseRequest):
 
                 Only one field can be specified.
 
-                If this parameter is not used in the URL request, then the surveys are sorted by captureDate in descending order.
+                If this parameter is not used in the URL request, then the surveys are sorted by captureDate in
+                descending order.
 
                 To sort in ascending order, pass the field name, e.g sort=lastPhotoTime. This will sort the surveys
                 according to the lastPhotoTime from earliest to latest.
 
-                To sort in descending order, pass the field name with the "-" prefix, e.g. sort=-pixelSize. This will sort the surveys according to the pixelSize from the largest to the smallest.
+                To sort in descending order, pass the field name with the "-" prefix, e.g. sort=-pixelSize. This
+                will sort the surveys according to the pixelSize from the largest to the smallest.
 
                 If you sort by location, the following are the precedence rules for comparing location objects:
 
                 country
                 state
                 region
-                For example, "NZ, MWT, PalmerstonNorth" will come after "AU, NSW, Williamstown" if sorted in ascending order.
+                For example, "NZ, MWT, PalmerstonNorth" will come after "AU, NSW, Williamstown" if sorted in
+                ascending order.
 
                 The available values are:
 
@@ -110,27 +101,30 @@ class Polygon(BaseRequest):
                 timezone
                 utcOffset
         """
-        separator = ","
-        polygon = [str(value) for value in polygon]
-        polygon_string = separator.join(polygon)
+        separator = "/"
+        uri_string = separator.join([str(z), str(x), str(y)])
+        self.set_uri(uri_string)
         self.queries = {
             "since": since,
             "until": until,
-            "limit" : limit,
-            "offset" : offset,
-            "fields" : separator.join(fields) if fields is not None else None,
-            "sort" : sort
+            "limit": limit,
+            "offset": offset,
+            "fields": separator.join(fields) if fields is not None else None,
+            "sort": sort
         }
-        self.set_uri(polygon_string)
         return self
 
-if __name__ == '__main__': # testing
-    nearmap = Polygon()
-    polygon = [138.59707796614592, -34.91729448760797,
-                138.61703360121672, -34.91729448760797,
-                138.61703360121672, -34.927709974005474,
-                138.59707796614592, -34.927709974005474,
-                138.59707796614592, -34.91729448760797]
-    nearmap.set_params(polygon=polygon)
-    response = nearmap.call()
-    a = 12
+if __name__ == '__main__':
+    tile_coordinate = TileCoordinate()
+    tile_coordinate.set_params(z=16,
+                                x=57999,
+                                y=39561,
+                                since="2015-07-01",
+                                until="2019-03-20",
+                                limit=1,
+                                offset=1,
+                                fields=['captureDate', 'firstPhotoTime', 'lastPhotoTime'],
+                                sort="id"
+                                )
+    response = tile_coordinate.call()
+    a=12

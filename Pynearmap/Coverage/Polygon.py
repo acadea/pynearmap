@@ -1,11 +1,10 @@
-from Src.BaseRequest import BaseRequest
+from Pynearmap.BaseRequest import BaseRequest
 
-class Point(BaseRequest):
-
-    base_uri = "coverage/v2/point/"
+class Polygon(BaseRequest):
+    base_uri = "coverage/v2/poly/"
 
     def set_params(self,
-                   point: list,
+                   polygon: list,
                    since: str = None,
                    until: str = None,
                    limit: int = None,
@@ -14,14 +13,26 @@ class Point(BaseRequest):
                    sort: str = None
                    ):
         """
-        This API retrieves coverage (surveys) for a given LONG,LAT point.
+        This API retrieves coverage (surveys) for a given polygon.
         Args:
-            point (list):
-                The point for which the surveys are retrieved. The point is the latitude and longitude
-                of the location on which to center the image, in the format LONG,LAT. For example,
-                -122.008946,37.334849.
+            polygon (list):
+                The polygon for which the surveys are retrieved. The polygon is depicted by a set of
+                LONG,LAT points, where the first and the last points must be the same.
 
-                Note: the LONG comes before the LAT.
+                For example:
+
+                138.59707796614592,-34.91729448760797
+
+                138.61703360121672,-34.91729448760797
+
+                138.61703360121672,-34.927709974005474
+
+                138.59707796614592,-34.927709974005474
+
+                138.59707796614592,-34.91729448760797
+                Notes-
+                    The API returns all surveys partially intersecting the requested polygon.
+                    The LONG comes before the LAT
 
             since (str):
                 The first day from which to retrieve the surveys (inclusive).
@@ -100,16 +111,26 @@ class Point(BaseRequest):
                 utcOffset
         """
         separator = ","
-        point = [str(value) for value in point]
-        point = separator.join(point)
+        polygon = [str(value) for value in polygon]
+        polygon_string = separator.join(polygon)
         self.queries = {
             "since": since,
             "until": until,
-            "limit": limit,
-            "offset": offset,
-            "fields": separator.join(fields) if fields is not None else None,
-            "sort": sort
+            "limit" : limit,
+            "offset" : offset,
+            "fields" : separator.join(fields) if fields is not None else None,
+            "sort" : sort
         }
-        self.set_uri(point)
+        self.set_uri(polygon_string)
         return self
 
+if __name__ == '__main__': # testing
+    nearmap = Polygon()
+    polygon = [138.59707796614592, -34.91729448760797,
+                138.61703360121672, -34.91729448760797,
+                138.61703360121672, -34.927709974005474,
+                138.59707796614592, -34.927709974005474,
+                138.59707796614592, -34.91729448760797]
+    nearmap.set_params(polygon=polygon)
+    response = nearmap.call()
+    a = 12

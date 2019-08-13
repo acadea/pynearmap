@@ -1,12 +1,37 @@
 # Nearmap-py
 Lightweight Nearmap API client implemented in pure Python. Read the API documentation at https://docs.nearmap.com/
 
-# Getting Start
+# Getting Started
 
 ```python
 pip install ....
 ```
 
+## API Credentials
+
+You can either pass your nearmap api key directly to the constructor:
+
+```python
+from pynearmap.Tile import Tile
+
+api_key = "*****"
+
+tile_client = Tile(api_key=api_key)
+
+# ---
+
+```
+
+Otherwise create a new environmental variable "NEARMAP_KEY" in project root
+
+### Environmental Variable
+Copy the keys in .env-example to your project's .env file
+
+"NEARMAP_KEY"  -- api key
+
+"NEARMAP_BASE_URL"  -- eg https://api.nearmap.com/
+
+"REGIONAL_CODE" -- eg au
 
 
 # Requirement
@@ -15,6 +40,8 @@ dotenv
 pytest
 
 Pillow
+
+
 
 
 # Usage

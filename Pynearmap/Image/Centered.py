@@ -1,5 +1,5 @@
 from App.Config.App import app
-from Src.BaseRequest import BaseRequest
+from Pynearmap.BaseRequest import BaseRequest
 
 class Centered(BaseRequest):
 

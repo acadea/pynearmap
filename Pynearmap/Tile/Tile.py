@@ -1,4 +1,4 @@
-from Src.BaseRequest import BaseRequest
+from Pynearmap.BaseRequest import BaseRequest
 
 class Tile(BaseRequest):
 

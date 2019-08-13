@@ -6,7 +6,7 @@ sys.path.append(os.getenv("PATH_ROOT"))
 
 import pytest
 import json
-from Src.Coverage.Polygon import Polygon
+from Pynearmap.Coverage.Polygon import Polygon
 
 
 @pytest.fixture

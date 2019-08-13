@@ -6,7 +6,7 @@ sys.path.append(os.getenv("PATH_ROOT"))
 import pytest
 from PIL import Image
 from io import BytesIO
-from Src.Image.Centered import Centered
+from Pynearmap.Image.Centered import Centered
 
 @pytest.fixture
 def image_centered_instance():

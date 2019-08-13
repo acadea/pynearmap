@@ -1,4 +1,4 @@
-from App.Config.Auth import auth
+from ..Config.Auth import auth
 import abc
 
 import requests

@@ -1,4 +1,4 @@
-from Src.BaseRequest import BaseRequest
+from Pynearmap.BaseRequest import BaseRequest
 
 class SpecifiedSurvey(BaseRequest):
     base_uri = "tiles/v3/surveys/"
@@ -43,7 +43,7 @@ class SpecifiedSurvey(BaseRequest):
 
 
 if __name__ == '__main__':
-    from Src.Coverage.Point import Point
+    from Pynearmap.Coverage.Point import Point
 
     tile_specified_instance = SpecifiedSurvey()
     # coverage_point_instance = Point()
