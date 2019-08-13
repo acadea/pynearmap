@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 sys.path.append(os.getenv("PATH_ROOT"))
+from pynearmap import CoveragePoint as Point
 import pytest
-from Pynearmap.Coverage.Point import Point
 
 
 @pytest.fixture

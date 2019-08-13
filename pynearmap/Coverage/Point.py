@@ -1,13 +1,11 @@
-from Pynearmap.BaseRequest import BaseRequest
+from pynearmap.BaseRequest import BaseRequest
 
-class TileCoordinate(BaseRequest):
+class Point(BaseRequest):
 
-    base_uri = "coverage/v2/coord/"
+    base_uri = "coverage/v2/point/"
 
     def set_params(self,
-                   z: int,
-                   x: int,
-                   y: int,
+                   point: list,
                    since: str = None,
                    until: str = None,
                    limit: int = None,
@@ -16,12 +14,15 @@ class TileCoordinate(BaseRequest):
                    sort: str = None
                    ):
         """
-        This API retrieves coverage (surveys) for a given tile (x/y/z) coordinate, using the Google Maps Tile Coordinates.
-        https://developers.google.com/maps/documentation/javascript/coordinates
+        This API retrieves coverage (surveys) for a given LONG,LAT point.
         Args:
-            z: The zoom level. The highest resolution is typically 21. Uses the Google Maps Tile Coordinates.
-            x: The X tile coordinate for which the surveys are retrieved (column). Uses the Google Maps Tile Coordinates.
-            y: The Y tile coordinate for which the surveys are retrieved (row). Uses the Uses the Google Maps Tile Coordinates.
+            point (list):
+                The point for which the surveys are retrieved. The point is the latitude and longitude
+                of the location on which to center the image, in the format LONG,LAT. For example,
+                -122.008946,37.334849.
+
+                Note: the LONG comes before the LAT.
+
             since (str):
                 The first day from which to retrieve the surveys (inclusive).
 
@@ -72,22 +73,19 @@ class TileCoordinate(BaseRequest):
 
                 Only one field can be specified.
 
-                If this parameter is not used in the URL request, then the surveys are sorted by captureDate in
-                descending order.
+                If this parameter is not used in the URL request, then the surveys are sorted by captureDate in descending order.
 
                 To sort in ascending order, pass the field name, e.g sort=lastPhotoTime. This will sort the surveys
                 according to the lastPhotoTime from earliest to latest.
 
-                To sort in descending order, pass the field name with the "-" prefix, e.g. sort=-pixelSize. This
-                will sort the surveys according to the pixelSize from the largest to the smallest.
+                To sort in descending order, pass the field name with the "-" prefix, e.g. sort=-pixelSize. This will sort the surveys according to the pixelSize from the largest to the smallest.
 
                 If you sort by location, the following are the precedence rules for comparing location objects:
 
                 country
                 state
                 region
-                For example, "NZ, MWT, PalmerstonNorth" will come after "AU, NSW, Williamstown" if sorted in
-                ascending order.
+                For example, "NZ, MWT, PalmerstonNorth" will come after "AU, NSW, Williamstown" if sorted in ascending order.
 
                 The available values are:
 
@@ -101,9 +99,9 @@ class TileCoordinate(BaseRequest):
                 timezone
                 utcOffset
         """
-        separator = "/"
-        uri_string = separator.join([str(z), str(x), str(y)])
-        self.set_uri(uri_string)
+        separator = ","
+        point = [str(value) for value in point]
+        point = separator.join(point)
         self.queries = {
             "since": since,
             "until": until,
@@ -112,19 +110,6 @@ class TileCoordinate(BaseRequest):
             "fields": separator.join(fields) if fields is not None else None,
             "sort": sort
         }
+        self.set_uri(point)
         return self
 
-if __name__ == '__main__':
-    tile_coordinate = TileCoordinate()
-    tile_coordinate.set_params(z=16,
-                                x=57999,
-                                y=39561,
-                                since="2015-07-01",
-                                until="2019-03-20",
-                                limit=1,
-                                offset=1,
-                                fields=['captureDate', 'firstPhotoTime', 'lastPhotoTime'],
-                                sort="id"
-                                )
-    response = tile_coordinate.call()
-    a=12

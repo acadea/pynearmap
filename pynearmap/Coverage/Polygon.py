@@ -1,4 +1,4 @@
-from Pynearmap.BaseRequest import BaseRequest
+from pynearmap.BaseRequest import BaseRequest
 
 class Polygon(BaseRequest):
     base_uri = "coverage/v2/poly/"

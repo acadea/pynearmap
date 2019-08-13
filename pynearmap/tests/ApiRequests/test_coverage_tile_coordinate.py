@@ -4,7 +4,7 @@ load_dotenv()
 import os
 sys.path.append(os.getenv("PATH_ROOT"))
 import pytest
-from Pynearmap.Coverage.TileCoordinate import TileCoordinate
+from pynearmap.Coverage.TileCoordinate import TileCoordinate
 
 @pytest.fixture
 def tile_coordinate_instance():

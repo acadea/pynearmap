@@ -6,7 +6,7 @@ sys.path.append(os.getenv("PATH_ROOT"))
 import pytest
 from PIL import Image
 from io import BytesIO
-from Pynearmap.Tile.SpecifiedSurvey import SpecifiedSurvey
+from pynearmap.Tile.SpecifiedSurvey import SpecifiedSurvey
 
 @pytest.fixture
 def tile_specified_instance():
