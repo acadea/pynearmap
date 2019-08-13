@@ -8,7 +8,7 @@ setup(
   author = 'Sam Ngu',
   author_email = 'sam.ngu@yandex.com',
   url = 'https://github.com/sam-ngu/pynearmap',
-  download_url = 'https://github.com/user/reponame/archive/v_01.tar.gz',
+  download_url = 'https://github.com/sam-ngu/pynearmap/archive/v0.1.tar.gz',
   keywords = ['nearmap', 'api-client'],
   install_requires=[
           'Pillow',
