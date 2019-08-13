@@ -4,7 +4,7 @@ Lightweight Nearmap API client implemented in pure Python. Read the API document
 # Getting Started
 
 ```python
-pip install ....
+pip install pynearmap
 ```
 
 ## API Credentials
