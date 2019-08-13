@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
   name = 'pynearmap',
   packages = ['pynearmap'],
-  version = '0.1',
+  version = '0.1.1',
   license='MIT',
   description = 'Lightweight Nearmap API client implemented in pure Python. Read the API documentation at https://docs.nearmap.com/',
   author = 'Sam Ngu',
   author_email = 'sam.ngu@yandex.com',
   url = 'https://github.com/sam-ngu/pynearmap',
-  download_url = 'https://github.com/sam-ngu/pynearmap/archive/v0.1.tar.gz',
+  download_url = 'https://github.com/sam-ngu/pynearmap/archive/v0.1.1.tar.gz',
   keywords = ['nearmap', 'api-client'],
   install_requires=[
           'Pillow',
